@@ -44,6 +44,9 @@
 <!-- sisu -->
 <div class="container">
     <div class="row">
+
+        // <a href 
+
         <?php
         $id = $_GET['id'];
         $paring = "SELECT * FROM cars WHERE id=".$id."";
