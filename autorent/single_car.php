@@ -45,7 +45,7 @@
 <div class="container">
     <div class="row">
 
-        // <a href 
+        
 
         <?php
         $id = $_GET['id'];
@@ -64,6 +64,7 @@
             <img src="https://loremflickr.com/800/500/<?php echo str_replace(" ","", $rida["mark"]); ?>" class="card-img-top img-fluid" alt="<?php echo str_replace(" ","", $rida["mark"]); ?>">
         </div>
     </div>
+    <a href="index.php">Tagasi</a>
 </div>
 <!-- /sisu -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
