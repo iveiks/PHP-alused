@@ -6,14 +6,14 @@
     <ul>
       <li>Sikuta "autorent" kaust enda arvutisse</li>
       <li>Käivita enda arvutis Docker</li>
-      <li>Enda arvuti terminaliga mine sinna kausta ning sisesta see käsk <b>docker compose up --build -d</b> (tõmbab vajalikud failid ning käivitab konteinerid)</li>
+      <li>Enda arvuti terminaliga mine sinna kausta ning sisesta see käsk '<b>docker compose up --build -d</b>' (tõmbab vajalikud failid ning käivitab konteinerid)</li>
       <li>Kui kõik on korras ja konteinerid töötavad, peaksid saama brauseriga ligi kahele aadressile:
         <ul>
           <li><b>localhost:8081</b> see on phpMyAdmin leht. Kasutaja "admin", parool "Passw0rd".</li>
           <li><b>localhost:8080</b> see on autorendi leht.</li>
         </ul>
       </li>
-      <li>Kui vajalikud toimingud tehtud, sisesta terminalis see käsk <b>docker compose down</b> (peatab ning kustutab konteinerid).</li>
+      <li>Kui vajalikud toimingud tehtud, sisesta terminalis see käsk '<b>docker compose down</b>' (peatab ning kustutab konteinerid).</li>
     </ul>
     <p>
       Nagu ennegi, kasutasin töö tegemiseks Dockerit. Apache ja muu vajaliku seadistamine on seetõttu väga lihtne, kuna kasutasin olemasolevaid image'eid. <br>
