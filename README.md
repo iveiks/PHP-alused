@@ -26,7 +26,7 @@
       <br><br>
       Kahe uue tabeli tegemine admin lehel oli lihtne, seal vast miskit kirjeldada pole, sama mockaroos test andmete loomine.
     </p>
-
+    <p>
     Toimiv veebileht <br>
     <img width="1200" height="690" alt="autorent" src="https://github.com/user-attachments/assets/be59bf65-4dec-49a7-9d7b-6de3c733c53c">
     <br>
@@ -35,5 +35,5 @@
     <img width="1357" height="1294" alt="reservations" src="https://github.com/user-attachments/assets/9b482575-00d7-4b70-93ba-7e13a5ba5d41">
     <br>
     <img width="1671" height="1315" alt="users" src="https://github.com/user-attachments/assets/259cb61c-e53f-4ff7-8b46-75bc01dac411">
-
+    </p>
   </div>
