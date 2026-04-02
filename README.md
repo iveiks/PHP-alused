@@ -23,6 +23,8 @@
       Samuti on yaml failis defineeritud pordid, et host masinast sinna sisse-välja saada.
       <br>
       Veebiserveri puhul ei saanud puhast image faili kasutada, kuna siis ei töötanud PHP normaalselt, seetõttu kasutasin seal Dockerfile'i.
+      <br><br>
+      Kahe uue tabeli tegemine admin lehel oli lihtne, seal vast miskit kirjeldada pole, sama mockaroos test andmete loomine.
     </p>
 
     Toimiv veebileht <br>
