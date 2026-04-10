@@ -10,17 +10,23 @@
 
 <!-- üks auto -->
 <?php
+
+if (isset($_GET['msg'])){
+  echo '<div class="alert alert-success" role="alert">Kirje lisatud</div>';
+}
+
 $paring = "SELECT * FROM cars";
 if (!empty($_GET["otsi"])) {
   $otsing = $_GET["otsi"];
   $paring .= " WHERE mark LIKE '%".$otsing."%'";
 }
-$paring .= " LIMIT 16";
+$paring .= " LIMIT 10";
 
 // var_dump($_GET["otsi"]);
 $valjund = mysqli_query($yhendus, $paring); //saadan päringu andmebaasi
                      
 ?>
+
 
 <table class="table">
   <thead>
