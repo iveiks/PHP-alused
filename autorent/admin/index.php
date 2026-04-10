@@ -11,10 +11,12 @@
 <!-- üks auto -->
 <?php
 
+// sõnumi kuvamine
 if (isset($_GET['msg'])){
   echo '<div class="alert alert-success" role="alert">Kirje lisatud</div>';
 }
 
+// autode kuvamine
 $paring = "SELECT * FROM cars";
 if (!empty($_GET["otsi"])) {
   $otsing = $_GET["otsi"];
