@@ -4,7 +4,11 @@
 <?php
 
        
-    if (isset($_GET["editid"])){
+    
+
+    if (isset($_GET["updateid"])){
+        $id = $_GET["updateid"];
+        if (isset($_GET["editid"])){
         $id = $_GET["editid"];
         $mark = $_GET['mark'];
         $model = $_GET['model'];
@@ -22,9 +26,6 @@
         $valjund = mysqli_query($yhendus, $paring);
         $rida = mysqli_fetch_assoc($valjund);
     }
-
-    if (isset($_GET["updateid"])){
-        $id = $_GET["updateid"];
 
         $paring = "UPDATE cars SET mark = '".$id."', model = '".$model."', engine = '".$engine."', fuel = '".$fuel."', price = '".$price."', year = '".$year."', transmission = '".$transmission."', seats = '".$seats."', description = '".$description."', status = '".$status."', image = 'test' WHERE cars.id = ".$id."";
 
