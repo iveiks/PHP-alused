@@ -7,11 +7,26 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   </head>
   <body>
+    <?php
+        $msg = "";
+        if (!empty($_POST)) {
+            $uname = $_POST['user'];
+            $password = $_POST['password'];
+            $hash = '$2a$12$FZkM8uLQKLvhpwTu7cJxm.WHYvzFDbsnWiIC.o/9pxt4Z2ENn9ZV6';
+
+            if ($uname=="admin" && password_verify($password, $hash)) {
+                echo 'Tere';
+            } else {
+                $msg = 'Sisestasid valed andmed!';
+            }
+        }
+    ?>
+
     <div class="container">
         <div class="row pt-4 mt-4">
             <div class="col-sm-4"></div>
             <div class="col-sm-4">
-                <form method="get" action="login.php">
+                <form method="post" action="login.php" autocomplete="off">
                     <div class="mb-3">
                         <label for="u" class="form-label">User name</label>
                         <input name="user" type="text" class="form-control" id="u">
@@ -22,6 +37,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Logi sisse</button>
                 </form>
+                <?= $msg; ?>
             </div>
             <div class="col-sm-4"></div>
         </div>
