@@ -1,3 +1,7 @@
+<?php 
+session_start(); 
+include('../config.php');
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -10,14 +14,25 @@
     <?php
         $msg = "";
         if (!empty($_POST)) {
+
+            // kasutaja vormist
             $uname = $_POST['user'];
             $password = $_POST['password'];
-            $hash = '$2a$12$FZkM8uLQKLvhpwTu7cJxm.WHYvzFDbsnWiIC.o/9pxt4Z2ENn9ZV6';
 
-            if ($uname=="admin" && password_verify($password, $hash)) {
-                echo 'Tere';
-            } else {
-                $msg = 'Sisestasid valed andmed!';
+            // kasutaja andmebaasist
+            $paring = "SELECT username, password_hash FROM users WHERE username='".$uname."'";
+            $valjund = mysqli_query($yhendus, $paring);
+            $rida = mysqli_fetch_assoc($valjund);
+            // var_dump($rida);
+
+            if (!empty($rida)) {
+                $hash = $rida['password_hash'];
+                if ($uname==$rida['username'] && password_verify($password, $hash)) {
+                    $_SESSION['tuvastamine'] = 'misiganes';
+                    header("Location: index.php");
+                } else {
+                    $msg = 'Sisestasid valed andmed!';
+                }
             }
         }
     ?>
