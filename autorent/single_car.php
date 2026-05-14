@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <?php include('config.php'); ?>
 <?php include('header.php'); ?>
 
@@ -6,9 +7,11 @@
     <div class="row">
 
         <?php
-        $id = $_GET['id'];
-        $paring = "SELECT * FROM cars WHERE id=".$id."";
-        $valjund = mysqli_query($yhendus, $paring);
+        $id = intval($_GET['id']);
+        $stmt = mysqli_prepare($yhendus, "SELECT * FROM cars WHERE id = ?");
+        mysqli_stmt_bind_param($stmt, "i", $id);
+        mysqli_stmt_execute($stmt);
+        $valjund = mysqli_stmt_get_result($stmt);
         $rida = mysqli_fetch_assoc($valjund);
         // print_r($rida);
         ?>

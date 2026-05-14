@@ -1,6 +1,52 @@
 <?php 
 session_start(); 
 include('../config.php');
+
+$msg = "";
+if (!empty($_POST)) {
+
+    // kasutaja vormist
+    $uname = trim($_POST['user']);
+    $password = trim($_POST['password']);
+
+    // 1. Kontrollime adminite tabelist
+    $stmt = mysqli_prepare($yhendus, "SELECT username, password_hash FROM users WHERE username = ?");
+     if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "s", $uname);
+        mysqli_stmt_execute($stmt); 
+        $valjund = mysqli_stmt_get_result($stmt);
+        $rida = mysqli_fetch_assoc($valjund);
+        mysqli_stmt_close($stmt);
+        
+        if ($rida && password_verify($password, $rida['password_hash'])) {
+            $_SESSION['tuvastamine'] = $rida['username'];
+            $_SESSION['roll'] = 'admin';
+            header("Location: admin.php");
+            exit();
+        }
+    }
+
+    // 2. Kui admini ei leitud, kontrollime klientide tabelist
+    $stmt = mysqli_prepare($yhendus, "SELECT username, password_hash FROM clients WHERE username = ?");
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "s", $uname);
+        mysqli_stmt_execute($stmt); 
+        $valjund = mysqli_stmt_get_result($stmt);
+        $rida = mysqli_fetch_assoc($valjund);
+        mysqli_stmt_close($stmt);
+
+        if ($rida && password_verify($password, $rida['password_hash'])) {
+            $_SESSION['tuvastamine'] = $rida['username'];
+            $_SESSION['roll'] = 'client';
+            header("Location: ../index.php");
+            exit();
+        } else {
+            $msg = '<div class="alert alert-danger">Sisestasid valed andmed!</div>';
+        }
+    } else {
+        $msg = "Süsteemi viga: sisselogimine pole hetkel võimalik. (" . htmlspecialchars(mysqli_error($yhendus)) . ")";
+    }
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -11,32 +57,6 @@ include('../config.php');
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   </head>
   <body>
-    <?php
-        $msg = "";
-        if (!empty($_POST)) {
-
-            // kasutaja vormist
-            $uname = $_POST['user'];
-            $password = $_POST['password'];
-
-            // kasutaja andmebaasist
-            $paring = "SELECT username, password_hash FROM users WHERE username='".$uname."'";
-            $valjund = mysqli_query($yhendus, $paring);
-            $rida = mysqli_fetch_assoc($valjund);
-            // var_dump($rida);
-
-            if (!empty($rida)) {
-                $hash = $rida['password_hash'];
-                if ($uname==$rida['username'] && password_verify($password, $hash)) {
-                    $_SESSION['tuvastamine'] = 'misiganes';
-                    header("Location: index.php");
-                } else {
-                    $msg = 'Sisestasid valed andmed!';
-                }
-            }
-        }
-    ?>
-
     <div class="container">
         <div class="row pt-4 mt-4">
             <div class="col-sm-4"></div>
@@ -44,15 +64,19 @@ include('../config.php');
                 <form method="post" action="login.php" autocomplete="off">
                     <div class="mb-3">
                         <label for="u" class="form-label">User name</label>
-                        <input name="user" type="text" class="form-control" id="u">
+                        <input name="user" type="text" class="form-control" id="u" value="<?= htmlspecialchars($uname ?? ''); ?>">
                     </div>
                     <div class="mb-3">
                         <label for="p" class="form-label">Password</label>
                         <input name="password" type="password" class="form-control" id="p">
                     </div>
-                    <button type="submit" class="btn btn-primary">Logi sisse</button>
+                    <div class="d-flex mb-3">
+                        <button type="submit" class="btn btn-primary me-2 flex-grow-1">Logi sisse</button>
+                        <a href="../index.php" class="btn btn-dark">Esilehele</a>
+                    </div>
                 </form>
                 <?= $msg; ?>
+                
             </div>
             <div class="col-sm-4"></div>
         </div>

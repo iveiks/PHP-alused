@@ -18,10 +18,41 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Andmebaas: `autorent`
+-- Andmebaas: `car_rent`
 --
 
 -- --------------------------------------------------------
+
+--
+-- Tabeli struktuur tabelile `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Tabeli struktuur tabelile `clients`
+--
+
+CREATE TABLE `clients` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Andmete tõmmistamine tabelile `users`
+--
+
+INSERT INTO `users` (`username`, `password_hash`) VALUES
+('boss', '$2a$12$51YfGnI9J/DrbXVoMgdyoeikD9qAJFsKcuR2fLTBGItYoNpoDCMne'); -- Password: Passw0rd
 
 --
 -- Tabeli struktuur tabelile `cars`

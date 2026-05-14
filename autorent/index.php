@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <?php include('config.php'); ?>
 <?php include('header.php'); ?>
 
@@ -6,15 +7,17 @@
     <div class="row row-cols-1 row-cols-md-4 g-4">
 <!-- üks auto -->
 <?php
-    $paring = "SELECT * FROM cars";
     if (!empty($_GET["otsi"])) {
-        $otsing = $_GET["otsi"];
-        $paring .= " WHERE mark LIKE '%".$otsing."%'";
-    } 
-    $paring .= " LIMIT 8";
-    // var_dump($_GET["otsi"]);
+        $otsing = "%" . $_GET["otsi"] . "%";
+        $stmt = mysqli_prepare($yhendus, "SELECT * FROM cars WHERE mark LIKE ? LIMIT 8");
+        mysqli_stmt_bind_param($stmt, "s", $otsing);
+        mysqli_stmt_execute($stmt);
+        $valjund = mysqli_stmt_get_result($stmt);
+    } else {
+        $paring = "SELECT * FROM cars LIMIT 8";
+        $valjund = mysqli_query($yhendus, $paring);
+    }
 
-    $valjund = mysqli_query($yhendus, $paring); //saadan päringu andmebaasi
     while($rida = mysqli_fetch_assoc($valjund)){       //sikutan vastuse alla
         // var_dump($rida);                            //kuvan testvastuse
 ?>

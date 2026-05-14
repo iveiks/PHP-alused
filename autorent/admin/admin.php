@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['tuvastamine'])) {
+if (!isset($_SESSION['roll']) || $_SESSION['roll'] !== 'admin') {
   header('Location: login.php');
   exit();
   }
@@ -11,7 +11,7 @@ if (!isset($_SESSION['tuvastamine'])) {
 
 <!-- sisu -->
 <div class="container">
-    <h2>Adminni ala</h2>
+    <h2>Admini ala</h2>
     <a href="lisa.php" class="btn btn-success">+ Lisa auto</a>
     <div class="row row-cols-1 row-cols-md-4 g-4">
 <!-- üks auto -->
@@ -23,15 +23,16 @@ if (!isset($_SESSION['tuvastamine'])) {
 
 
   //autode kuvamine
-    $paring = "SELECT * FROM cars";
     if (!empty($_GET["otsi"])) {
-        $otsing = $_GET["otsi"];
-        $paring .= " WHERE mark LIKE '%".$otsing."%'";
-    } 
-    $paring .= " LIMIT 8";
-    // var_dump($_GET["otsi"]);
-
-    $valjund = mysqli_query($yhendus, $paring); //saadan päringu andmebaasi
+        $otsing = "%" . $_GET["otsi"] . "%";
+        $stmt = mysqli_prepare($yhendus, "SELECT * FROM cars WHERE mark LIKE ? LIMIT 8");
+        mysqli_stmt_bind_param($stmt, "s", $otsing);
+        mysqli_stmt_execute($stmt);
+        $valjund = mysqli_stmt_get_result($stmt);
+    } else {
+        $paring = "SELECT * FROM cars LIMIT 8";
+        $valjund = mysqli_query($yhendus, $paring);
+    }
 
 ?>
 
@@ -41,15 +42,6 @@ if (!isset($_SESSION['tuvastamine'])) {
       <th scope="col">#</th>
       <th scope="col">Mark</th>
       <th scope="col">Mudel</th>
-      <th scope="col">Hind</th>
-      <th scope="col">Hind</th>
-      <th scope="col">Hind</th>
-      <th scope="col">Hind</th>
-      <th scope="col">Hind</th>
-      <th scope="col">Hind</th>
-      <th scope="col">Hind</th>
-      <th scope="col">Hind</th>
-      <th scope="col">Hind</th>
       <th scope="col">Kustuta</th>
       <th scope="col">Muuda</th>
     </tr>
@@ -63,15 +55,6 @@ if (!isset($_SESSION['tuvastamine'])) {
       <th scope="row"><?php echo $rida["id"]; ?></th>
       <td><?php echo $rida["mark"]; ?></td>
       <td><?php echo $rida["model"]; ?></td>
-      <td><?php echo $rida["price"]; ?></td>
-      <td><?php echo $rida["price"]; ?></td>
-      <td><?php echo $rida["price"]; ?></td>
-      <td><?php echo $rida["price"]; ?></td>
-      <td><?php echo $rida["price"]; ?></td>
-      <td><?php echo $rida["price"]; ?></td>
-      <td><?php echo $rida["price"]; ?></td>
-      <td><?php echo $rida["price"]; ?></td>
-      <td><?php echo $rida["price"]; ?></td>
       <td><a href="kustuta.php?delid=<?= $rida["id"]; ?>" class="btn btn-danger">Kustuta</a></td>
       <td><a href="muuda.php?editid=<?= $rida["id"]; ?>" class="btn btn-warning">Muuda</a></td>
     </tr>
