@@ -156,6 +156,7 @@ if (!isset($_SESSION['roll']) || $_SESSION['roll'] !== 'admin') {
                         <th>Klient</th>
                         <th>Alguskuupäev</th>
                         <th>Summa</th>
+                        <th>Tegevus</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -165,6 +166,9 @@ if (!isset($_SESSION['roll']) || $_SESSION['roll'] !== 'admin') {
                             <td><?= htmlspecialchars($rida['username']); ?></td>
                             <td><?= $rida['start_date']; ?></td>
                             <td><?= $rida['total_price']; ?> €</td>
+                            <td>
+                                <a href="admin_cancel_rental.php?rental_id=<?= $rida['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Oled kindel, et soovid selle broneeringu tühistada?')">Tühista</a>
+                            </td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
