@@ -29,7 +29,7 @@ Autorent on PHP ja MySQL baasil ehitatud veebipõhine autorendiplatvorm. Rakendu
 
 1.  **Klooni hoidla**:
     ```bash
-    git clone https://github.com/yourusername/autorent.git
+    git clone https://github.com/iveiks/PHP-alused.git
     ```
 
 2.  **Andmebaasi seadistamine**:
