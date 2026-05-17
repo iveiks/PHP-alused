@@ -43,6 +43,8 @@ CREATE TABLE `clients` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `password_hash` varchar(255) NOT NULL,
+  `bank_name` varchar(100) DEFAULT NULL,
+  `account_number` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -53,6 +55,40 @@ CREATE TABLE `clients` (
 
 INSERT INTO `users` (`username`, `password_hash`) VALUES
 ('boss', '$2a$12$51YfGnI9J/DrbXVoMgdyoeikD9qAJFsKcuR2fLTBGItYoNpoDCMne'); -- Password: Passw0rd
+
+--
+-- Tabeli struktuur tabelile `favourites`
+--
+
+CREATE TABLE `favourites` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `car_id` int(4) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `client_id` (`client_id`),
+  KEY `car_id` (`car_id`),
+  CONSTRAINT `favourites_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `favourites_ibfk_2` FOREIGN KEY (`car_id`) REFERENCES `cars` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Tabeli struktuur tabelile `rentals`
+--
+
+CREATE TABLE `rentals` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `car_id` int(4) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `total_price` int(10) DEFAULT NULL,
+  `status` enum('active','cancelled','completed') NOT NULL DEFAULT 'active',
+  PRIMARY KEY (`id`),
+  KEY `client_id` (`client_id`),
+  KEY `car_id` (`car_id`),
+  CONSTRAINT `rentals_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `rentals_ibfk_2` FOREIGN KEY (`car_id`) REFERENCES `cars` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Tabeli struktuur tabelile `cars`

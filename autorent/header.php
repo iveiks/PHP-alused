@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Autorent</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
       .nav-link:hover {
         background-color: rgba(0, 0, 0, 0.05);
@@ -29,18 +30,29 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-          <?php if (isset($_SESSION['roll']) && $_SESSION['roll'] === 'admin'): ?>
-            <a class="nav-link" href="<?php echo $admin_root; ?>admin.php">Admin</a>
+        <?php if (isset($_SESSION['roll'])): ?>
+          <?php if ($_SESSION['roll'] === 'client'): ?>
+            <li class="nav-item">
+              <a class="nav-link" href="<?php echo $root; ?>favourites.php">Lemmikud</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<?php echo $root; ?>my_rentals.php">Minu rendid</a>
+            </li>
+          <?php elseif ($_SESSION['roll'] === 'admin'): ?>
+            <li class="nav-item">
+              <a class="nav-link" href="<?php echo $admin_root; ?>admin.php">Admin</a>
+            </li>
           <?php endif; ?>
-        </li>
+        <?php endif; ?>
       </ul>
+      <?php if (isset($_SESSION['roll'])): ?>
+        <?php 
+          $profile_link = ($_SESSION['roll'] === 'admin') ? $admin_root . 'admin_profile.php' : $root . 'client_profile.php';
+        ?>
+        <a class="nav-link me-3 d-flex align-items-center" href="<?php echo $profile_link; ?>">
+          <i class="bi bi-person-circle me-1"></i> <?php echo htmlspecialchars($_SESSION['tuvastamine']); ?>
+        </a>
+      <?php endif; ?>
       <form class="d-flex" role="search" method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="otsi">
         <button class="btn btn-outline-success" type="submit">Otsi</button>
