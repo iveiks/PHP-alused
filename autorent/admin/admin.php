@@ -35,18 +35,30 @@ if (!isset($_SESSION['roll']) || $_SESSION['roll'] !== 'admin') {
         mysqli_stmt_bind_param($stmt, "sii", $otsing, $limit, $offset);
         mysqli_stmt_execute($stmt);
         $valjund = mysqli_stmt_get_result($stmt);
+        if (!$valjund) {
+            die("Andmebaasi viga autode otsingupäringul: " . mysqli_error($yhendus));
+        }
 
         // Koguarvu päring lehekülgede arvutamiseks
         $count_stmt = mysqli_prepare($yhendus, "SELECT COUNT(*) as total FROM cars WHERE mark LIKE ?");
         mysqli_stmt_bind_param($count_stmt, "s", $otsing);
         mysqli_stmt_execute($count_stmt);
         $count_res = mysqli_stmt_get_result($count_stmt);
+        if (!$count_res) {
+            die("Andmebaasi viga autode otsingu koguarvu päringul: " . mysqli_error($yhendus));
+        }
         $total_rows = mysqli_fetch_assoc($count_res)['total'];
     } else {
         $paring = "SELECT * FROM cars LIMIT $limit OFFSET $offset";
         $valjund = mysqli_query($yhendus, $paring);
+        if (!$valjund) {
+            die("Andmebaasi viga autode päringul: " . mysqli_error($yhendus));
+        }
 
         $count_res = mysqli_query($yhendus, "SELECT COUNT(*) as total FROM cars");
+        if (!$count_res) {
+            die("Andmebaasi viga autode koguarvu päringul: " . mysqli_error($yhendus));
+        }
         $total_rows = mysqli_fetch_assoc($count_res)['total'];
     }
     $total_pages = ceil($total_rows / $limit);
@@ -54,10 +66,16 @@ if (!isset($_SESSION['roll']) || $_SESSION['roll'] !== 'admin') {
     // Aktiivsete rentimiste päring (täna on perioodi sees)
     $active_rentals_paring = "SELECT r.*, c.mark, c.model, cl.username FROM rentals r JOIN cars c ON r.car_id = c.id JOIN clients cl ON r.client_id = cl.id WHERE r.status = 'active' AND CURRENT_DATE BETWEEN r.start_date AND r.end_date ORDER BY r.start_date ASC";
     $active_rentals_valjund = mysqli_query($yhendus, $active_rentals_paring);
+    if (!$active_rentals_valjund) {
+        die("Andmebaasi viga aktiivsete rentide päringul: " . mysqli_error($yhendus));
+    }
 
     // Tulevaste broneeringute päring (algus on tulevikus)
     $future_bookings_paring = "SELECT r.*, c.mark, c.model, cl.username FROM rentals r JOIN cars c ON r.car_id = c.id JOIN clients cl ON r.client_id = cl.id WHERE r.status = 'active' AND r.start_date > CURRENT_DATE ORDER BY r.start_date ASC";
     $future_bookings_valjund = mysqli_query($yhendus, $future_bookings_paring);
+    if (!$future_bookings_valjund) {
+        die("Andmebaasi viga tulevaste broneeringute päringul: " . mysqli_error($yhendus));
+    }
 
 ?>
 

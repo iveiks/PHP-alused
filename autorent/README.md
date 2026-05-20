@@ -29,7 +29,7 @@ Autorent on PHP ja MySQL baasil ehitatud veebipõhine autorendiplatvorm. Rakendu
 
 1.  **Klooni hoidla**:
     ```bash
-    git clone https://github.com/iveiks/PHP-alused.git
+    git clone https://github.com/yourusername/autorent.git
     ```
 
 2.  **Andmebaasi seadistamine**:
@@ -51,17 +51,10 @@ Administraatori paneelile pääsemiseks kasuta järgmisi andmeid:
 *   **Kasutajanimi**: `boss`
 *   **Parool**: `Passw0rd`
 
-Juba olemasolevad kliendikontod:
-*   **Kasutajanimi**: `andur`
-*   **Parool**: `Passw0rd`
-
-*   **Kasutajanimi**: `pistik`
-*   **Parool**: `Passw0rd`
-
 Kliendid saavad luua oma konto avalehel asuva nupu **Registreeri** kaudu.
 
 ## 📝 Litsents
 See projekt on loodud õppe-eesmärgil osana PHP aluste kursusest.
 
 ---
-*Arendatud Veiko poolt*
+*Arendatud Kodukaun poolt*
